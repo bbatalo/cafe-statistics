@@ -12,3 +12,5 @@ library("readxl")
 cafe.data <- read_excel("cafedata.xls", na = "na")
 
 # descriptive statistics for total coffee and soda sales
+desc.soda <- summary(cafe.data$Sodas)
+desc.coffee <- summary(cafe.data$`Coffees`)
