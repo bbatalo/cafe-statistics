@@ -48,6 +48,8 @@ sodas.na <- c(sum(is.na(cafe.data[cafe.data$`Day Code` == 1, ]$Sodas)),
               sum(is.na(cafe.data[cafe.data$`Day Code` == 4, ]$Sodas)),
               sum(is.na(cafe.data[cafe.data$`Day Code` == 5, ]$Sodas)))
 names(sodas.na) <- days.ordered
+sodas.mean <- tapply(cafe.data$Sodas, cafe.data$`Day Code`, mean, na.rm=TRUE)
+names(sodas.mean) <- days.ordered
 sodas.min <- tapply(cafe.data$Sodas, cafe.data$`Day Code`, min, na.rm=TRUE)
 names(sodas.min) <- days.ordered
 sodas.max <- tapply(cafe.data$Sodas, cafe.data$`Day Code`, max, na.rm=TRUE)
