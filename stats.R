@@ -89,3 +89,58 @@ day.col.names <- col.names <- c('Day Of Week', 'N', 'NA', 'Mean', 'SE Mean', 'St
                                 'Minimum', 'Q1', 'Median', 'Q3', 'Maximum')
 names(desc.sodas.days) <- day.col.names
 View(desc.sodas.days)
+
+# descriptive statistics for total coffee sales || day-dependent
+days.ordered <- c('Mon', 'Tue', 'Wed', 'Thu', 'Fri')
+coffees.n <- c(length(na.omit(cafe.data[cafe.data$`Day Code` == 1, ]$Coffees)),
+             length(na.omit(cafe.data[cafe.data$`Day Code` == 2, ]$Coffees)),
+             length(na.omit(cafe.data[cafe.data$`Day Code` == 3, ]$Coffees)),
+             length(na.omit(cafe.data[cafe.data$`Day Code` == 4, ]$Coffees)),
+             length(na.omit(cafe.data[cafe.data$`Day Code` == 5, ]$Coffees)))
+names(coffees.n) <- days.ordered
+coffees.na <- c(sum(is.na(cafe.data[cafe.data$`Day Code` == 1, ]$Coffees)),
+              sum(is.na(cafe.data[cafe.data$`Day Code` == 2, ]$Coffees)),
+              sum(is.na(cafe.data[cafe.data$`Day Code` == 3, ]$Coffees)),
+              sum(is.na(cafe.data[cafe.data$`Day Code` == 4, ]$Coffees)),
+              sum(is.na(cafe.data[cafe.data$`Day Code` == 5, ]$Coffees)))
+names(coffees.na) <- days.ordered
+coffees.mean <- tapply(cafe.data$Coffees, cafe.data$`Day Code`, mean, na.rm=TRUE)
+names(coffees.mean) <- days.ordered
+coffees.stdev <- tapply(cafe.data$Coffees, cafe.data$`Day Code`, sd, na.rm=TRUE)
+names(coffees.stdev) <- days.ordered
+tmp.lengths <- c(length(na.omit(cafe.data[cafe.data$`Day Code` == 1, ]$Coffees)),
+                 length(na.omit(cafe.data[cafe.data$`Day Code` == 2, ]$Coffees)),
+                 length(na.omit(cafe.data[cafe.data$`Day Code` == 3, ]$Coffees)),
+                 length(na.omit(cafe.data[cafe.data$`Day Code` == 4, ]$Coffees)),
+                 length(na.omit(cafe.data[cafe.data$`Day Code` == 5, ]$Coffees)))
+coffees.semean <- coffees.stdev / sqrt(tmp.lengths)
+names(coffees.semean) <- days.ordered
+coffees.min <- tapply(cafe.data$Coffees, cafe.data$`Day Code`, min, na.rm=TRUE)
+names(coffees.min) <- days.ordered
+coffees.quantiles <- tapply(cafe.data$Coffees, cafe.data$`Day Code`, quantile, na.rm=TRUE)
+coffees.q1 <- c(coffees.quantiles$`1`[2],
+                coffees.quantiles$`2`[2],
+                coffees.quantiles$`3`[2],
+                coffees.quantiles$`4`[2],
+                coffees.quantiles$`5`[2])
+names(coffees.q1) <- days.ordered
+coffees.median <- c(coffees.quantiles$`1`[3],
+                    coffees.quantiles$`2`[3],
+                    coffees.quantiles$`3`[3],
+                    coffees.quantiles$`4`[3],
+                    coffees.quantiles$`5`[3])
+names(coffees.median) <- days.ordered
+coffees.q3 <- c(coffees.quantiles$`1`[4],
+                coffees.quantiles$`2`[4],
+                coffees.quantiles$`3`[4],
+                coffees.quantiles$`4`[4],
+                coffees.quantiles$`5`[4])
+names(coffees.q3) <- days.ordered
+coffees.max <- tapply(cafe.data$Coffees, cafe.data$`Day Code`, max, na.rm=TRUE)
+names(coffees.max) <- days.ordered
+desc.coffees.days <- data.frame(days.ordered, coffees.n, coffees.na, coffees.mean, coffees.semean, coffees.stdev, 
+                           coffees.min, coffees.q1, coffees.median, coffees.q3, coffees.max)
+day.col.names <- col.names <- c('Day Of Week', 'N', 'NA', 'Mean', 'SE Mean', 'StDev', 
+                                'Minimum', 'Q1', 'Median', 'Q3', 'Maximum')
+names(desc.coffees.days) <- day.col.names
+View(desc.coffees.days)
