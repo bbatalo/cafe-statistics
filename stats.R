@@ -9,10 +9,12 @@ getwd()
 install.packages("readxl")
 library("readxl")
 
+## LOADING
 # load dataset with correct attribute types and NA value parsing
 cafe.data <- read_excel("cafedata.xls", na = "na")
 View(cafe.data)
 
+## DESCRIPTIVE STATISTICS
 # descriptive statistics for total coffee and soda sales || day-independent
 sodas <- cafe.data$Sodas
 coffees <- cafe.data$Coffees
@@ -144,3 +146,23 @@ day.col.names <- col.names <- c('Day Of Week', 'N', 'NA', 'Mean', 'SE Mean', 'St
                                 'Minimum', 'Q1', 'Median', 'Q3', 'Maximum')
 names(desc.coffees.days) <- day.col.names
 View(desc.coffees.days)
+
+# TODO: take some time to analyze these results, add some comments
+
+
+## TIME-SERIES
+# time-series plots and analysis of coffee and soda sales
+install.packages('xts')
+require(graphics)
+require(xts)
+
+# construct time-series objects
+sodas.ts <- xts(cafe.data$Sodas, cafe.data$Date)
+coffees.ts <- xts(cafe.data$Coffees, cafe.data$Date)
+both.ts <- merge.xts(sodas.ts, coffees.ts)
+
+# plot both time-series for analysis
+# TODO: make it pretty
+plot.xts(both.ts)
+
+# TODO: analyze further
