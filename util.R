@@ -1,3 +1,35 @@
+# descriptive statistics for a column
+describe <- function(dataset, column) {
+  col.names <- c('Variable', 'N', 'NA', 'Mean', 'SE Mean', 'StDev', 'Minimum', 'Q1', 'Median', 'Q3', 'Maximum')
+  items <- dataset[[column]]
+  n <- length(na.omit(items))
+  na <- sum(is.na(items))
+  mean <- mean(items, na.rm=TRUE)
+  sd <- sd(items, na.rm=TRUE)
+  semean <- (sd[1] / sqrt(length(items[!is.na(items)])))
+  min <- min(items, na.rm=TRUE)
+  max <- max(items, na.rm=TRUE)
+  quantiles <- quantile(items, na.rm=TRUE)
+  q1 <- quantiles[2]
+  median <- quantiles[3]
+  q3 <- quantiles[4]
+  desc.stats <- data.frame(column, n, na, mean, sd, semean, min, q1, median, q3, max)
+  names(desc.stats) <- col.names
+  row.names(desc.stats) <- c()
+  desc.stats
+}
+
+# descriptive statistics for specified columns
+describe.full <- function(dataset, names) {
+  desc.stats <- data.frame()
+  for (name in names) {
+    tmp.stats <- describe(dataset, name)
+    desc.stats <- rbind(desc.stats, tmp.stats)
+  }
+  desc.stats
+}
+
+# descriptive statistics for column by days
 describe.by.day <- function(dataset, column) {
   days.ordered <- c('Mon', 'Tue', 'Wed', 'Thu', 'Fri')
   items.n <- c(length(na.omit(dataset[dataset$`Day Code` == 1, ][[column]])),
