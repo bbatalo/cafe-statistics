@@ -46,7 +46,6 @@ coffee.norm
 qqnorm(coffees) # p-value = 0.0945 -> null-hypothesis not rejected (could be normal distribution)
 qqline(coffees)
 
-
 sodas <- cafe.data$Sodas
 sodas.norm <- shapiro.test(sodas)
 sodas.norm      # p-value = 0.1431 -> null-hypothesis not rejected (could be normal distribution)
@@ -56,6 +55,10 @@ qqline(sodas)
 coffees.sodas.tbl <- table(coffees, sodas)
 chisq.test(coffees.sodas.tbl)  # p-value = 0.1415 -> null-hypothesis not rejected (could be independent)
 # bad results, see comment below for more details
+
+# but, we can test correlation
+sodas.coffees.cor <- cor(na.omit(coffees), na.omit(sodas))
+# correlation is -0.4021 -> negative correlation
 
 # 2. Test independence between coffee sales and day of week
 coffees.days.tbl <- table(cafe.data$`Day of Week`, coffees)
@@ -101,12 +104,26 @@ qqline(temps)
 
 coffees.temp.tbl <- table(temps, coffees)
 chisq.test(coffees.temp.tbl)   # p-value = 0.2746 -> null-hypothesis not rejected (could be independent)
+# bad results, see comment below for more details
+
+# but, we can test correlation
+ind <- which(is.na(coffees))
+temps[ind] <- NA
+coffees.temp.cor <- cor(na.omit(coffees), na.omit(temps))
+# correlation is -0.741302 -> negative correlation
 
 # 5. Test independence between soda sales and temperature
 sodas.temp.tbl <- table(temps, sodas)
 chisq.test(sodas.temp.tbl)     # p-value = 0.4162 -> null-hypothesis not rejected (could be independent)
+# bad results, see comment below for more details
 
-# COMMENT
+# but, we can test correlation
+ind <- which(is.na(sodas))
+temps[ind] <- NA
+sodas.temp.cor <- cor(na.omit(sodas), na.omit(temps))
+# correlation is 0.5301824 -> positive correlation
+
+# COMMENT FOR CHI-SQUARE
 # contingency tables contain low numbers because of large number of different values per attribute
 # therefore, the test may not be accurate
 
@@ -128,6 +145,7 @@ addLegend("topleft", on=1,
           lty=c(1, 1), lwd=c(2, 1),
           col=c("red", "black"))
 
+##########################################################
 # Statistics for other sales
 food.desc.stats <- describe.full(cafe.data, c("Bread Sand Sold", "Wraps Sold", "Muffins Sold", "Cookies Sold"))
 View(food.desc.stats)
