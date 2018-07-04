@@ -23,6 +23,20 @@ View(soda.coffee.desc.stats)
 
 # TODO 
 # 1. Test indepencence between coffee and soda sales
+coffees <- cafe.data$Coffees
+coffee.norm <- shapiro.test(coffees)
+coffee.norm
+qqnorm(coffees)
+qqline(coffees)
+
+sodas <- cafe.data$Sodas
+sodas.norm <- shapiro.test(sodas)
+sodas.norm
+qqnorm(sodas)
+qqline(sodas)
+
+tbl <- table(coffees, sodas)
+chisq.test(tbl)
 # 2. Test independence between coffee sales and day of week
 # 3. Test indepencence between soda sales and day of week
 # 4. Test independence between coffee sales and temperature
