@@ -1,6 +1,6 @@
 # descriptive statistics for a column
 describe <- function(dataset, column) {
-  col.names <- c('Variable', 'N', 'NA', 'Mean', 'SE Mean', 'StDev', 'Minimum', 'Q1', 'Median', 'Q3', 'Maximum')
+  col.names <- c('Variable', 'N', 'NA', 'Mean', 'SE Mean', 'StDev', 'Minimum', 'Q1', 'Median', 'Q3', 'Maximum', 'Total')
   items <- dataset[[column]]
   n <- length(na.omit(items))
   na <- sum(is.na(items))
@@ -13,7 +13,8 @@ describe <- function(dataset, column) {
   q1 <- quantiles[2]
   median <- quantiles[3]
   q3 <- quantiles[4]
-  desc.stats <- data.frame(column, n, na, mean, sd, semean, min, q1, median, q3, max)
+  total <- sum(items, na.rm=TRUE)
+  desc.stats <- data.frame(column, n, na, mean, sd, semean, min, q1, median, q3, max, total)
   names(desc.stats) <- col.names
   row.names(desc.stats) <- c()
   desc.stats

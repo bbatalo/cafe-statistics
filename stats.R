@@ -21,27 +21,49 @@ View(cafe.data)
 soda.coffee.desc.stats <- describe.full(cafe.data, c("Sodas", "Coffees"))
 View(soda.coffee.desc.stats)
 
-# TODO 
+# statistic tests on coffes and sodas for days and temperature
 # 1. Test indepencence between coffee and soda sales
 coffees <- cafe.data$Coffees
 coffee.norm <- shapiro.test(coffees)
 coffee.norm
-qqnorm(coffees)
+qqnorm(coffees) # p-value = 0.0945 -> null-hypothesis not rejected (could be normal distribution)
 qqline(coffees)
 
 sodas <- cafe.data$Sodas
 sodas.norm <- shapiro.test(sodas)
-sodas.norm
+sodas.norm      # p-value = 0.1431 -> null-hypothesis not rejected (could be normal distribution)
 qqnorm(sodas)
 qqline(sodas)
 
-tbl <- table(coffees, sodas)
-chisq.test(tbl)
-# 2. Test independence between coffee sales and day of week
-# 3. Test indepencence between soda sales and day of week
-# 4. Test independence between coffee sales and temperature
-# 5. Test independence between soda sales and temperature
+coffees.sodas.tbl <- table(coffees, sodas)
+chisq.test(coffees.sodas.tbl)  # p-value = 0.1415 -> null-hypothesis not rejected (could be independent)
 
+# 2. Test independence between coffee sales and day of week
+coffees.days.tbl <- table(cafe.data$`Day of Week`, coffees)
+chisq.test(coffees.days.tbl)   # p-value = 0.7011 -> null-hypothesis not rejected (could be independent)
+
+# 3. Test indepencence between soda sales and day of week
+sodas.days.tbl <- table(cafe.data$`Day of Week`, sodas)
+chisq.test(sodas.days.tbl)     # p-value = 0.5995 -> null-hypothesis not rejected (could be independent)
+
+# 4. Test independence between coffee sales and temperature
+temps <- cafe.data$`Max Daily Temperature (F)`
+temps.norm <- shapiro.test(temps)
+temps.norm     # p-value = 0.0004153 -> null-hypothesis rejected (may not be normal distribution)
+qqnorm(temps)
+qqline(temps)
+
+coffees.temp.tbl <- table(temps, coffees)
+chisq.test(coffees.temp.tbl)   # p-value = 0.2746 -> null-hypothesis not rejected (could be independent)
+
+# 5. Test independence between soda sales and temperature
+sodas.temp.tbl <- table(temps, sodas)
+chisq.test(sodas.temp.tbl)     # p-value = 0.4162 -> null-hypothesis not rejected (could be independent)
+
+# COMMENT
+# contingency tables contain low numbers because of large number of different values per attribute
+# therefore, the test may not be accurate
+ 
 # TODO
 # 1. Check if any other sales depend on time of day
 
