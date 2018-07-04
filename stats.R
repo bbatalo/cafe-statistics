@@ -33,7 +33,6 @@ boxplot(cafe.data$Sodas ~ cafe.data$`Day of Week`,
 # descriptive statistics for total coffee sales || day-dependent
 desc.coffees.days <- describe.by.day(cafe.data, "Coffees")
 View(desc.coffees.days)
-ord <- c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')
 boxplot(cafe.data$Coffees ~ cafe.data$`Day of Week`, 
         main="Coffee sales by day", xlab="Days", ylab="Coffee sales",
         ylim=c(0,60))
@@ -150,46 +149,185 @@ addLegend("topleft", on=1,
 food.desc.stats <- describe.full(cafe.data, c("Bread Sand Sold", "Wraps Sold", "Muffins Sold", "Cookies Sold"))
 View(food.desc.stats)
 
+###
 # descriptive statistics for total bread sandwich sales|| day-dependent
+sandwiches <- cafe.data$`Bread Sand Sold`
 desc.sand.sold.days <- describe.by.day(cafe.data, "Bread Sand Sold")
 View(desc.sand.sold.days)
-sands.ts <- xts(cafe.data$`Bread Sand Sold`)
+sands.ts <- xts(sandwiches, cafe.data$Date)
+plot.xts(sands.ts, main="Bread Sandwich sales trend")
+boxplot(sandwiches ~ cafe.data$`Day of Week`, 
+        main="Sandwich sales by day", xlab="Days", ylab="Sandwich sales",
+        ylim=c(0,10))
 
+sandwiches.norm <- shapiro.test(sandwiches)
+sandwiches.norm # p-value = 0.09755 -> null-hypothesis not rejected (barely)
+qqnorm(sandwiches)
+qqline(sandwiches)
+
+# test for sandwich sales normality over days
+sandwich.norm.days <- normality.by.day(cafe.data, "Bread Sand Sold")
+any(sandwich.norm.days[sandwich.norm.days < 0.05])
+# normality not satisfied
+
+# going with kruskal-wallis as non-parametric test
+cafe.data$`Day of Week` <- as.factor(cafe.data$`Day of Week`)
+kruskal.test(sandwiches ~ cafe.data$`Day of Week`, data=cafe.data)
+# p-value = 0.0002652 -> we can assume that there are differences between groups
+
+######
 # descriptive statistics for total wraps sales|| day-dependent
+wraps <- cafe.data$`Wraps Sold`
 desc.wraps.sold.days <- describe.by.day(cafe.data, "Wraps Sold")
 View(desc.wraps.sold.days)
+wraps.ts <- xts(wraps, cafe.data$Date)
+plot.xts(wraps.ts, main="Wraps sales trend")
+boxplot(wraps ~ cafe.data$`Day of Week`, 
+        main="Wrap sales by day", xlab="Days", ylab="Wrap sales",
+        ylim=c(0,30))
 
+wraps.norm <- shapiro.test(wraps)
+wraps.norm # p-value = 0.1444 -> null-hypothesis not rejected
+qqnorm(wraps)
+qqline(wraps)
+
+# test for wrap sales normality over days
+wraps.norm.days <- normality.by.day(cafe.data, "Wraps Sold")
+any(wraps.norm.days[wraps.norm.days < 0.05])
+
+# going with kruskal-wallis as non-parametric test
+kruskal.test(wraps ~ cafe.data$`Day of Week`, data=cafe.data)
+# p-value = 0.0001315 -> we can assume that there are differences between groups
+
+#####
 # descriptive statistics for total muffin sales || day-dependent
+muffins <- cafe.data$`Muffins Sold`
 desc.muffins.sold.days <- describe.by.day(cafe.data, "Muffins Sold")
 View(desc.muffins.sold.days)
+muffins.ts <- xts(muffins, cafe.data$Date)
+plot.xts(muffins.ts, main="Muffin sales trend")
+boxplot(muffins ~ cafe.data$`Day of Week`, 
+        main="Muffin sales by day", xlab="Days", ylab="Muffin sales",
+        ylim=c(0,15))
 
+muffins.norm <- shapiro.test(muffins)
+muffins.norm # p-value = 3.913e-06 -> null-hypothesis rejected
+qqnorm(muffins)
+qqline(muffins)
+
+# test for muffin sales normality over days
+muffins.norm.days <- normality.by.day(cafe.data, "Muffins Sold")
+any(muffins.norm.days[muffins.norm.days < 0.05])
+
+# going with kruskal-wallis as non-parametric test
+kruskal.test(muffins ~ cafe.data$`Day of Week`, data=cafe.data)
+# p-value = 0.2709 -> we can assume that there are no significant differences between groups
+
+#####
 # descriptive statistics for total cookie sales || day-dependent
+cookies <- cafe.data$`Cookies Sold`
 desc.cookies.sold.days <- describe.by.day(cafe.data, "Cookies Sold")
 View(desc.cookies.sold.days)
+cookies.ts <- xts(cookies, cafe.data$Date)
+plot.xts(cookies.ts, main="Cookie sales trend")
+boxplot(cookies ~ cafe.data$`Day of Week`, 
+        main="Cookie sales by day", xlab="Days", ylab="Cookie sales",
+        ylim=c(0,15))
 
+cookies.norm <- shapiro.test(cookies)
+cookies.norm # p-value = 0.1845 -> null-hypothesis not rejected
+qqnorm(cookies)
+qqline(cookies)
 
+# test for cookie sales normality over days
+cookies.norm.days <- normality.by.day(cafe.data, "Cookies Sold")
+any(cookies.norm.days[cookies.norm.days < 0.05])
 
+# use anova
+cookies.aov <- aov(cookies ~ cafe.data$`Day of Week`)
+summary(cookies.aov)
+layout(matrix(1:4, 2, 2))
+plot(cookies.aov)
 
+TukeyHSD(cookies.aov)
+# no significant differences
+
+#####
 # descriptive statistics for total fruit cup sales || day-dependent
+fruits <- cafe.data$`Fruit Cup Sold`
 desc.fruit.sold.days <- describe.by.day(cafe.data, "Fruit Cup Sold")
 View(desc.fruit.sold.days)
 
+fruits.ts <- xts(fruits, cafe.data$Date)
+plot.xts(fruits.ts, main="Fruit sales trend")
+boxplot(fruits ~ cafe.data$`Day of Week`, 
+        main="Fruit sales by day", xlab="Days", ylab="Fruit sales",
+        ylim=c(0,5))
+
+fruits.norm <- shapiro.test(fruits)
+fruits.norm # p-value = 0.001236 -> null-hypothesis rejected
+qqnorm(fruits)
+qqline(fruits)
+
+# test for fruit sales normality over days
+fruits.norm.days <- normality.by.day(cafe.data, "Fruit Cup Sold")
+any(fruits.norm.days[fruits.norm.days < 0.05])
+
+# going with kruskal-wallis as non-parametric test
+kruskal.test(fruits ~ cafe.data$`Day of Week`, data=cafe.data)
+# p-value = 0.2099 -> we can assume that there are no significant differences between groups
+
+#####
 # descriptive statistics for total chips sales || day-dependent
+chips <- cafe.data$Chips
 desc.chips.days <- describe.by.day(cafe.data, "Chips")
 View(desc.chips.days)
 
+chips.ts <- xts(chips, cafe.data$Date)
+plot.xts(chips.ts, main="Chips sales trend")
+boxplot(chips ~ cafe.data$`Day of Week`, 
+        main="Chips sales by day", xlab="Days", ylab="Chips sales",
+        ylim=c(0,25))
+
+chips.norm <- shapiro.test(chips)
+chips.norm # p-value = 0.04132 -> null-hypothesis rejected
+qqnorm(chips)
+qqline(chips)
+
+# test for chips sales normality over days
+chips.norm.days <- normality.by.day(cafe.data, "Chips")
+any(chips.norm.days[chips.norm.days < 0.05])
+
+# use anova
+chips.aov <- aov(chips ~ cafe.data$`Day of Week`)
+summary(chips.aov)
+layout(matrix(1:4, 2, 2))
+plot(chips.aov)
+
+TukeyHSD(chips.aov)
+# no significant differences between groups
+
+#####
 # descriptive statistics for total juice sales || day-dependent
+juices <- cafe.data$Juices
 desc.juices.days <- describe.by.day(cafe.data, "Juices")
 View(desc.juices.days)
 
+juices.ts <- xts(juices, cafe.data$Date)
+plot.xts(juices.ts, main="Juices sales trend")
+boxplot(juices ~ cafe.data$`Day of Week`, 
+        main="Juice sales by day", xlab="Days", ylab="Juice sales",
+        ylim=c(0,15))
 
+juices.norm <- shapiro.test(juices)
+juices.norm # p-value = 1.161e-05 -> null-hypothesis not rejected
+qqnorm(juices)
+qqline(juices)
 
+# test for juice sales normality over days
+juices.norm.days <- normality.by.day(cafe.data, "Juices")
+any(juices.norm.days[juices.norm.days < 0.05])
 
-# TODO: take some time to analyze these results, add some comments
-
-
-
-
-
-
-# TODO: analyze further
+# going with kruskal-wallis as non-parametric test
+kruskal.test(juices ~ cafe.data$`Day of Week`, data=cafe.data)
+# p-value = 0.1573 -> we can assume that there are no significant differences between groups
