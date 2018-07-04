@@ -175,6 +175,9 @@ cafe.data$`Day of Week` <- as.factor(cafe.data$`Day of Week`)
 kruskal.test(sandwiches ~ cafe.data$`Day of Week`, data=cafe.data)
 # p-value = 0.0002652 -> we can assume that there are differences between groups
 
+sandwiches.temp.cor <- cor(na.omit(sandwiches), na.omit(temps))
+# p-value = -0.09483227 -> insignificant correlation
+
 ######
 # descriptive statistics for total wraps sales|| day-dependent
 wraps <- cafe.data$`Wraps Sold`
@@ -199,6 +202,9 @@ any(wraps.norm.days[wraps.norm.days < 0.05])
 kruskal.test(wraps ~ cafe.data$`Day of Week`, data=cafe.data)
 # p-value = 0.0001315 -> we can assume that there are differences between groups
 
+wraps.temp.cor <- cor(na.omit(wraps), na.omit(temps))
+# p-value = 0.1017703 -> insignificant correlation
+
 #####
 # descriptive statistics for total muffin sales || day-dependent
 muffins <- cafe.data$`Muffins Sold`
@@ -222,6 +228,9 @@ any(muffins.norm.days[muffins.norm.days < 0.05])
 # going with kruskal-wallis as non-parametric test
 kruskal.test(muffins ~ cafe.data$`Day of Week`, data=cafe.data)
 # p-value = 0.2709 -> we can assume that there are no significant differences between groups
+
+muffins.temp.cor <- cor(na.omit(muffins), na.omit(temps))
+# p-value = -0.0903645 -> insignificant correlation
 
 #####
 # descriptive statistics for total cookie sales || day-dependent
@@ -252,6 +261,10 @@ plot(cookies.aov)
 TukeyHSD(cookies.aov)
 # no significant differences
 
+cookies.temp.cor <- cor(na.omit(cookies), na.omit(temps))
+# p-value = 0.006054085 -> insignificant correlation
+
+
 #####
 # descriptive statistics for total fruit cup sales || day-dependent
 fruits <- cafe.data$`Fruit Cup Sold`
@@ -276,6 +289,9 @@ any(fruits.norm.days[fruits.norm.days < 0.05])
 # going with kruskal-wallis as non-parametric test
 kruskal.test(fruits ~ cafe.data$`Day of Week`, data=cafe.data)
 # p-value = 0.2099 -> we can assume that there are no significant differences between groups
+
+fruits.temp.cor <- cor(na.omit(fruits), na.omit(temps))
+# p-value = 0.07449467 -> insignificant correlation
 
 #####
 # descriptive statistics for total chips sales || day-dependent
@@ -307,6 +323,9 @@ plot(chips.aov)
 TukeyHSD(chips.aov)
 # no significant differences between groups
 
+chips.temp.cor <- cor(na.omit(chips), na.omit(temps))
+# p-value = -0.1778598 -> insignificant correlation
+
 #####
 # descriptive statistics for total juice sales || day-dependent
 juices <- cafe.data$Juices
@@ -331,3 +350,6 @@ any(juices.norm.days[juices.norm.days < 0.05])
 # going with kruskal-wallis as non-parametric test
 kruskal.test(juices ~ cafe.data$`Day of Week`, data=cafe.data)
 # p-value = 0.1573 -> we can assume that there are no significant differences between groups
+
+juices.temp.cor <- cor(na.omit(juices), na.omit(temps))
+# p-value = -0.06330148 -> insignificant correlation
