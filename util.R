@@ -81,10 +81,24 @@ describe.by.day <- function(dataset, column) {
   names(items.q3) <- days.ordered
   items.max <- tapply(dataset[[column]], dataset$`Day Code`, max, na.rm=TRUE)
   names(items.max) <- days.ordered
+  items.total <- c(sum(na.omit(dataset[dataset$`Day Code` == 1, ][[column]])),
+                   sum(na.omit(dataset[dataset$`Day Code` == 2, ][[column]])),
+                   sum(na.omit(dataset[dataset$`Day Code` == 3, ][[column]])),
+                   sum(na.omit(dataset[dataset$`Day Code` == 4, ][[column]])),
+                   sum(na.omit(dataset[dataset$`Day Code` == 5, ][[column]])))
   desc.items.days <- data.frame(days.ordered, items.n, items.na, items.mean, items.semean, items.stdev, 
-                                items.min, items.q1, items.median, items.q3, items.max)
+                                items.min, items.q1, items.median, items.q3, items.max, items.total)
   day.col.names <- col.names <- c('Day Of Week', 'N', 'NA', 'Mean', 'SE Mean', 'StDev', 
-                                  'Minimum', 'Q1', 'Median', 'Q3', 'Maximum')
+                                  'Minimum', 'Q1', 'Median', 'Q3', 'Maximum', 'Total')
   names(desc.items.days) <- day.col.names
   desc.items.days
+}
+
+normality.by.day <- function(dataset, column) {
+  p.values <- c(shapiro.test(na.omit(dataset[dataset$`Day Code` == 1, ][[column]]))$p.value,
+                shapiro.test(na.omit(dataset[dataset$`Day Code` == 2, ][[column]]))$p.value,
+                shapiro.test(na.omit(dataset[dataset$`Day Code` == 3, ][[column]]))$p.value,
+                shapiro.test(na.omit(dataset[dataset$`Day Code` == 4, ][[column]]))$p.value,
+                shapiro.test(na.omit(dataset[dataset$`Day Code` == 5, ][[column]]))$p.value)
+  p.values
 }
