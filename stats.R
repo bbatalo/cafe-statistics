@@ -366,7 +366,7 @@ time.temp.cor # 0.7615248 -> high correlation
 ### SODAS
 sodas <- cafe.data$Sodas
 
-# sodas vs time 
+# sodas vs time regression
 sodas.time.model <- lm(sodas ~ t)
 summary(sodas.time.model)
 sodas.time.model$coefficients
@@ -387,29 +387,46 @@ layout(matrix(1:4, 2, 2))
 plot(sodas.temps.model)
 
 ### COFFEES
-# coffees vs temps regression
 coffees <- cafe.data$Coffees
-coffees.model <- lm(coffees ~ temps)
-summary(coffees.model)
-coffees.model$coefficients
+
+# coffees vs time regression
+coffees.time.model <- lm(coffees ~ t)
+summary(coffees.time.model)
+coffees.time.model$coefficients
+layout(matrix(1))
+plot(coffees, t)
+abline(coffees.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(coffees.time.model)
+
+# coffees vs temps regression
+coffees.temps.model <- lm(coffees ~ temps)
+summary(coffees.temps.model)
+coffees.temps.model$coefficients
 layout(matrix(1))
 plot(coffees, temps)
-abline(coffees.model, col='red')
+abline(coffees.temps.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(coffees.temps.model)
+
+### COFFEE AND SODA
+both <- cafe.data$`Total Soda and Coffee`
+
+# against t
+both.time.model <- lm(both ~ t)
+summary(both.time.model)
+both.time.model$coefficients
+layout(matrix(1))
+plot(both, t, ylim=c(0,60))
+abline(both.time.model, col='red')
 
 # total coffee and soda sales vs temps
-both <- cafe.data$`Total Soda and Coffee`
 both.model <- lm(both ~ temps)
 summary(both.model)
 layout(matrix(1))
 plot(both, temps)
 abline(both.model, col='red')
 
-# against t -> same as temps
-coffee.time.model <- lm(coffees ~ (1:48))
-summary(coffee.time.model)
-coffee.time.model$coefficients
-layout(matrix(1))
-plot(coffees, (1:48))
-abline(coffee.time.model, col='red')
+
 
 
