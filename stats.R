@@ -419,14 +419,38 @@ both.time.model$coefficients
 layout(matrix(1))
 plot(both, t, ylim=c(0,60))
 abline(both.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(both.time.model)
 
 # total coffee and soda sales vs temps
-both.model <- lm(both ~ temps)
-summary(both.model)
+both.temps.model <- lm(both ~ temps)
+summary(both.temps.model)
 layout(matrix(1))
 plot(both, temps)
-abline(both.model, col='red')
+abline(both.temps.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(both.temps.model)
 
+### SALES
+sales <- cafe.data$Sales
 
+# sales against t
+sales.time.model <- lm(sales ~ t)
+summary(sales.time.model)
+sales.time.model$coefficients
+layout(matrix(1))
+plot(t, sales)
+abline(sales.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(sales.time.model)
 
+# sales against temps
+sales.temps.model <- lm(sales ~ temps)
+summary(sales.temps.model)
+sales.temps.model$coefficients
+layout(matrix(1))
+plot(temps, sales)
+abline(sales.temps.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(sales.temps.model)
 
