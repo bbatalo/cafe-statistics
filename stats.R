@@ -513,11 +513,48 @@ layout(matrix(1:4, 2, 2))
 plot(cookies.waste.time.model)
 
 # fruits waste regression
-wraps.waste.time.model <- lm(wraps.waste ~ t)
-summary(wraps.waste.time.model)
-wraps.waste.time.model$coefficients
+fruits.waste.time.model <- lm(fruits.waste ~ t)
+summary(fruits.waste.time.model)
+fruits.waste.time.model$coefficients
 layout(matrix(1))
-plot(t, wraps.waste)
-abline(wraps.waste.time.model, col='red')
+plot(t, fruits.waste)
+abline(fruits.waste.time.model, col='red')
 layout(matrix(1:4, 2, 2))
-plot(wraps.waste.time.model)
+plot(fruits.waste.time.model)
+
+
+### REGRESSION BY DAYS
+days <- cafe.data$`Day Code`
+
+days.mon <- days == 1
+zeros <- rep(0, length(days))
+zeros[days.mon] <- 1
+monday <- zeros
+
+days.tue <- days == 2
+zeros <- rep(0, length(days))
+zeros[days.tue] <- 1
+tuesday <- zeros
+
+days.wed <- days == 3
+zeros <- rep(0, length(days))
+zeros[days.wed] <- 1
+wednesday <- zeros
+
+days.thu <- days == 4
+zeros <- rep(0, length(days))
+zeros[days.thu] <- 1
+thursday <- zeros
+
+days.fri <- days == 5
+zeros <- rep(0, length(days))
+zeros[days.fri] <- 1
+friday <- zeros
+
+reg.dataset <- data.frame(sodas, coffees, sales, monday, tuesday, wednesday, thursday, friday, t)
+names(reg.dataset) <- c('Sodas', 'Coffees', 'Sales', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Time')
+View(reg.dataset)
+
+sales.days.model <- lm(sales ~ t + tuesday + wednesday + thursday + friday, data=reg.dataset)
+summary(sales.days.model)
+sales.days.model$coefficients
