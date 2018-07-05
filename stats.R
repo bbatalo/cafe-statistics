@@ -555,6 +555,17 @@ reg.dataset <- data.frame(sodas, coffees, sales, monday, tuesday, wednesday, thu
 names(reg.dataset) <- c('Sodas', 'Coffees', 'Sales', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Time')
 View(reg.dataset)
 
+# sales multiple regression
 sales.days.model <- lm(sales ~ t + tuesday + wednesday + thursday + friday, data=reg.dataset)
 summary(sales.days.model)
 sales.days.model$coefficients
+
+# sodas multiple regression
+sodas.days.model <- lm(sodas ~ t + tuesday + wednesday + thursday + friday, data=reg.dataset)
+summary(sodas.days.model)
+sodas.days.model$coefficients
+
+# coffees multiple regression
+coffees.days.model <- lm(coffees ~ t + tuesday + wednesday + thursday + friday, data=reg.dataset)
+summary(coffees.days.model)
+coffees.days.model$coefficients
