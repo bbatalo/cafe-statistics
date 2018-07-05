@@ -371,7 +371,7 @@ sodas.time.model <- lm(sodas ~ t)
 summary(sodas.time.model)
 sodas.time.model$coefficients
 layout(matrix(1))
-plot(sodas, t)
+plot(t, sodas)
 abline(sodas.time.model, col='red')
 layout(matrix(1:4, 2, 2))
 plot(sodas.time.model)
@@ -381,7 +381,7 @@ sodas.temps.model <- lm(sodas ~ temps)
 summary(sodas.temps.model)
 sodas.temps.model$coefficients
 layout(matrix(1))
-plot(sodas, temps)
+plot(temps, sodas)
 abline(sodas.temps.model, col='red')
 layout(matrix(1:4, 2, 2))
 plot(sodas.temps.model)
@@ -394,7 +394,7 @@ coffees.time.model <- lm(coffees ~ t)
 summary(coffees.time.model)
 coffees.time.model$coefficients
 layout(matrix(1))
-plot(coffees, t)
+plot(t, coffees)
 abline(coffees.time.model, col='red')
 layout(matrix(1:4, 2, 2))
 plot(coffees.time.model)
@@ -404,7 +404,7 @@ coffees.temps.model <- lm(coffees ~ temps)
 summary(coffees.temps.model)
 coffees.temps.model$coefficients
 layout(matrix(1))
-plot(coffees, temps)
+plot(temps, coffees)
 abline(coffees.temps.model, col='red')
 layout(matrix(1:4, 2, 2))
 plot(coffees.temps.model)
@@ -417,7 +417,7 @@ both.time.model <- lm(both ~ t)
 summary(both.time.model)
 both.time.model$coefficients
 layout(matrix(1))
-plot(both, t, ylim=c(0,60))
+plot(t, both)
 abline(both.time.model, col='red')
 layout(matrix(1:4, 2, 2))
 plot(both.time.model)
@@ -426,7 +426,7 @@ plot(both.time.model)
 both.temps.model <- lm(both ~ temps)
 summary(both.temps.model)
 layout(matrix(1))
-plot(both, temps)
+plot(temps, both)
 abline(both.temps.model, col='red')
 layout(matrix(1:4, 2, 2))
 plot(both.temps.model)
@@ -454,3 +454,70 @@ abline(sales.temps.model, col='red')
 layout(matrix(1:4, 2, 2))
 plot(sales.temps.model)
 
+### WASTE
+bread.waste <- cafe.data$`Bread Sand Waste`
+wraps.waste <- cafe.data$`Wraps Waste`
+muffins.waste <- cafe.data$`Muffins Waste`
+cookies.waste <- cafe.data$`Cookies Waste`
+fruits.waste <- cafe.data$`Fruit Cup Waste`
+total.waste <- cafe.data$`Total Items Wasted`
+
+# total waste regression
+total.waste.time.model <- lm(total.waste ~ t)
+summary(total.waste.time.model)
+total.waste.time.model$coefficients
+layout(matrix(1))
+plot(t, total.waste)
+abline(total.waste.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(total.waste.time.model)
+
+# bread waste regression
+bread.waste.time.model <- lm(bread.waste ~ t)
+summary(bread.waste.time.model)
+bread.waste.time.model$coefficients
+layout(matrix(1))
+plot(t, bread.waste)
+abline(bread.waste.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(bread.waste.time.model)
+
+# wraps waste regression
+wraps.waste.time.model <- lm(wraps.waste ~ t)
+summary(wraps.waste.time.model)
+wraps.waste.time.model$coefficients
+layout(matrix(1))
+plot(t, wraps.waste)
+abline(wraps.waste.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(wraps.waste.time.model)
+
+# muffins waste regression
+muffins.waste.time.model <- lm(muffins.waste ~ t)
+summary(muffins.waste.time.model)
+muffins.waste.time.model$coefficients
+layout(matrix(1))
+plot(t, muffins.waste)
+abline(muffins.waste.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(muffins.waste.time.model)
+
+# cookies waste regression
+cookies.waste.time.model <- lm(cookies.waste ~ t)
+summary(cookies.waste.time.model)
+cookies.waste.time.model$coefficients
+layout(matrix(1))
+plot(t, cookies.waste)
+abline(cookies.waste.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(cookies.waste.time.model)
+
+# fruits waste regression
+wraps.waste.time.model <- lm(wraps.waste ~ t)
+summary(wraps.waste.time.model)
+wraps.waste.time.model$coefficients
+layout(matrix(1))
+plot(t, wraps.waste)
+abline(wraps.waste.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(wraps.waste.time.model)
