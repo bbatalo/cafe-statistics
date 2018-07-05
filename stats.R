@@ -353,3 +353,63 @@ kruskal.test(juices ~ cafe.data$`Day of Week`, data=cafe.data)
 
 juices.temp.cor <- cor(na.omit(juices), na.omit(temps))
 # p-value = -0.06330148 -> insignificant correlation
+
+#####################################################
+# REGRESSIONS
+
+temps <- cafe.data$`Max Daily Temperature (F)`
+t <- cafe.data$t
+
+time.temp.cor <- cor(temps, t)
+time.temp.cor # 0.7615248 -> high correlation
+
+### SODAS
+sodas <- cafe.data$Sodas
+
+# sodas vs time 
+sodas.time.model <- lm(sodas ~ t)
+summary(sodas.time.model)
+sodas.time.model$coefficients
+layout(matrix(1))
+plot(sodas, t)
+abline(sodas.time.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(sodas.time.model)
+
+# sodas vs temps regression
+sodas.temps.model <- lm(sodas ~ temps)
+summary(sodas.temps.model)
+sodas.temps.model$coefficients
+layout(matrix(1))
+plot(sodas, temps)
+abline(sodas.temps.model, col='red')
+layout(matrix(1:4, 2, 2))
+plot(sodas.temps.model)
+
+### COFFEES
+# coffees vs temps regression
+coffees <- cafe.data$Coffees
+coffees.model <- lm(coffees ~ temps)
+summary(coffees.model)
+coffees.model$coefficients
+layout(matrix(1))
+plot(coffees, temps)
+abline(coffees.model, col='red')
+
+# total coffee and soda sales vs temps
+both <- cafe.data$`Total Soda and Coffee`
+both.model <- lm(both ~ temps)
+summary(both.model)
+layout(matrix(1))
+plot(both, temps)
+abline(both.model, col='red')
+
+# against t -> same as temps
+coffee.time.model <- lm(coffees ~ (1:48))
+summary(coffee.time.model)
+coffee.time.model$coefficients
+layout(matrix(1))
+plot(coffees, (1:48))
+abline(coffee.time.model, col='red')
+
+
