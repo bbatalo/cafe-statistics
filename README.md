@@ -40,3 +40,11 @@ Regressions:
 * Construction of basic reggresion models for most items
 * Construction of multiple-regression models for most items
 
+## Todo
+
+* Separate different analysis into different scripts or functions
+* Remove unnecessary tests and function calls
+* Refactor data loading
+* Refactor some parts of code into util.R functions
+* Make it pretty - add more graphics
+* Make it comprehensible - create a report (maybe PDF?)
