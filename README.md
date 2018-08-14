@@ -4,9 +4,10 @@ Basic statistical analysis of a cafe in Indiana for a student project in statist
 
 ## Getting started
 
-To get started with running the project, it is recommended to first read the paper (link below). Understanding of data and the circumstances surrounding it can be prove invaluable.
+To get started with running the project, it is recommended to first read the paper (link below). Understanding of data and the circumstances surrounding it can prove invaluable.
 
 The paper - https://ww2.amstat.org/publications/jse/v19n1/depaolo.pdf
+
 The data - http://www.amstat.org/publications/jse/v19n1/cafedata.xls
 
 ### Prerequisites
